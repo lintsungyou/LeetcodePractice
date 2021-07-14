@@ -35,7 +35,7 @@ int naiveReduceArrSizeToTheHalf(const std::vector<int>& _arr) //
 	return result;
 }
 
-int myAlgorithm(const std::vector<int>& _arr)
+int myAlgorithm(const std::vector<int>& _arr, bool _stdOrSelfDefinedBHeap)
 {
 	  std::unordered_map<int, int> numberToTimes;
 	  for(int i = 0; i < _arr.size(); i++)
@@ -59,23 +59,47 @@ int myAlgorithm(const std::vector<int>& _arr)
       	forHeap.push_back(constIt->second);
       }
 
-
-
-      BHeap maxHeap(forHeap);
-      //maxHeap.print();
       int result = 0;
-      int reducedElements = 0;
-      for(int i = 0; i < forHeap.size(); i++)
+	  int reducedElements = 0;
+
+      if(_stdOrSelfDefinedBHeap == SELF_DEFINED_BHEAP)
       {
-      	int maxFromHeap = maxHeap.extractMax();
-      	reducedElements+= maxFromHeap;
-      	//printf("extract: %d\n", maxFromHeap);
-      	result++;
-      	//maxHeap.print();
-      	if(reducedElements >= _arr.size()/2)
-			break;
+      	  // Self defined Binary Heap
+	      BHeap maxHeap(forHeap);
+	      //maxHeap.print();
+	    
+	      for(int i = 0; i < forHeap.size(); i++)
+	      {
+	      	int maxFromHeap = maxHeap.extractMax();
+	      	reducedElements+= maxFromHeap;
+	      	//printf("extract: %d\n", maxFromHeap);
+	      	result++;
+	      	//maxHeap.print();
+	      	if(reducedElements >= _arr.size()/2)
+				break;
+	      }
+      	  return result;
       }
-      return result;
+      else
+      {
+      	//Priority Queue from standard library
+      	std::priority_queue<int> maxHeap(forHeap.begin(), forHeap.end());
+
+      	for(int i =0; i < forHeap.size(); i++)
+      	{
+      		int maxFromHeap = maxHeap.top();
+      		maxHeap.pop();
+      		reducedElements += maxFromHeap;
+      		result++;
+      		if(reducedElements >= _arr.size()/2)
+				break;
+      	}
+      	return result;
+
+
+      }
+
+
 }
 
 

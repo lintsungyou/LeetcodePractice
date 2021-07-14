@@ -18,6 +18,7 @@ void usage(const char* progname) {
     printf("Program Options:\n");
     printf("  -n  --nSize <N>  Use N length array \n");
     printf("  -t  --testSize <INT>   Use <INT> numbers of random testCase \n");
+    printf("  -s  --selfDefHeap  If this tag is added, myalgorithm() will use self defined heap\n");
     printf("  -?  --help         This message\n");
     printf("-------------description and constraint-----------------------\n");
     printf("1 <= arr.length <= 105\n");
@@ -72,14 +73,16 @@ int main(int argc, char** argv){
     int opt, nSize, testSize, kth;
     nSize = 2;
     testSize = 10;
+    bool heapChoice = STD_PRIORITY_QUEUE;  
     static struct option long_options[] = {
         {"nSize", 1, 0, 'n'},
         {"testSize", 1, 0, 't'},
+        {"selfDefHeap", 0, 0, 's'},
         {"help", 0, 0, '?'},
         {0 ,0, 0, 0}
     };
 
-    while ((opt = getopt_long(argc, argv, "n:t:?", long_options, NULL)) != EOF) {
+    while ((opt = getopt_long(argc, argv, "n:t:s?", long_options, NULL)) != EOF) {
 
         switch (opt) {
         case 'n':
@@ -95,6 +98,11 @@ int main(int argc, char** argv){
         case 't':
         {
             testSize = atoi(optarg);
+            break;
+        }
+        case 's':
+        {
+            heapChoice = SELF_DEFINED_BHEAP;
             break;
         }
         case '?':
@@ -114,7 +122,7 @@ int main(int argc, char** argv){
 	    initializeRandArr(array, nSize);
 
 	    int stdAnswer = naiveReduceArrSizeToTheHalf(array);
-	    int myAnswer = myAlgorithm(array);
+	    int myAnswer = myAlgorithm(array, heapChoice);
 
 	    if(verifyResult(array,stdAnswer, myAnswer, i))
 	    	rightTestNumber++;

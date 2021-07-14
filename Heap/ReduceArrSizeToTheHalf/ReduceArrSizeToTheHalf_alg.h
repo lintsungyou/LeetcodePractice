@@ -7,6 +7,9 @@
 #include <cmath>
 #include <iostream>
 
+#define STD_PRIORITY_QUEUE true
+#define	SELF_DEFINED_BHEAP false
+
 const int HI_BOUND = 6;
 const int LO_BOUND = 1;
 const int SIZE_LO_BOUND = 1;
@@ -14,7 +17,7 @@ const int SIZE_HI_BOUND = 100000;
 
 int naiveReduceArrSizeToTheHalf(const std::vector<int>& _arr);
 
-int myAlgorithm(const std::vector<int>& _arr);
+int myAlgorithm(const std::vector<int>& _arr,  bool _stdOrSelfDefinedBHeap);
 
 class BHeap{
 public:
